@@ -236,4 +236,5 @@ unsigned Rudolf556Widget::find_control(float x, float y) {
 bool Rudolf556Widget::deactivate_controls() {
   m_active_control = m_controls.size();
   queue_draw();
+  return true;
 }

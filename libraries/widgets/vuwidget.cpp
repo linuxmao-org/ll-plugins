@@ -144,6 +144,8 @@ bool VUWidget::on_expose_event(GdkEventExpose* event) {
       win->draw_rectangle(gc, true, x, get_height() - (2 + 3 * i + 3), w, 2);
     }
   }
+
+  return true;
 }
 
 

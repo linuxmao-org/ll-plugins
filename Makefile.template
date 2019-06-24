@@ -1,5 +1,5 @@
 # Override these variables from the commandline, eg 'make DESTDIR=/usr install'
-CFLAGS = -g -O2
+CFLAGS = -g -O2 -Wall -Werror=return-type -Wno-parentheses
 prefix = /usr/local
 bindir = $(prefix)/bin
 libdir = $(prefix)/lib
