@@ -4,13 +4,17 @@ PKG_DEPS = \
 	cairomm-1.0>=1.2.4 \
 	gtkmm-2.4>=2.8.8 \
 	jack>=0.109.0 \
-	lash-1.0>=0.5.1 \
 	lv2-plugin>=1.0.0 \
 	lv2-gui>=1.0.0 \
 	paq>=1.0.0 \
 	sndfile>=1.0.18 \
 	samplerate>=0.1.2
 
+
+ifeq ($(BUILD_ELVEN),1)
+PKG_DEPS += \
+	lash-1.0>=0.5.1
+endif
 
 DOCS = AUTHORS COPYING INSTALL ChangeLog README
 
@@ -19,7 +23,9 @@ ARCHIVES = \
 	libkeyboard.a \
 	libvuwidget.a
 
+ifeq ($(BUILD_ELVEN),1)
 PROGRAMS = elven
+endif
 
 LV2_BUNDLES = \
 	arpeggiator.lv2 \
@@ -49,6 +55,7 @@ libvuwidget_a_SOURCEDIR = libraries/widgets
 
 # Executable programs
 
+ifeq ($(BUILD_ELVEN),1)
 elven_SOURCES = \
 	debug.hpp \
 	lv2guihost.hpp lv2guihost.cpp \
@@ -58,6 +65,7 @@ elven_SOURCES = \
 elven_CFLAGS = `pkg-config --cflags jack gtkmm-2.4 lash-1.0 sigc++-2.0 lv2-plugin lv2-gui paq` -Ilibraries/components -DVERSION=\"$(PACKAGE_VERSION)\"
 elven_LDFLAGS = `pkg-config --libs jack gtkmm-2.4 lash-1.0 sigc++-2.0 paq` -lpthread
 elven_SOURCEDIR = programs/elven
+endif
 
 
 # The plugins
