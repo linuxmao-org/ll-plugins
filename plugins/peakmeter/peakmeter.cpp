@@ -1,19 +1,19 @@
 /****************************************************************************
-    
+
     peakmeter.cpp - simple audio meter plugin
-    
+
     Copyright (C) 2006-2007 Lars Luthman <lars.luthman@gmail.com>
-    
+
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor,
@@ -34,12 +34,12 @@
 template <unsigned C>
 class PeakMeter : public LV2::Plugin< PeakMeter<C> > {
 public:
-  
+
   // we need import p() into our namespace since this is a template class
   using LV2::Plugin< PeakMeter<C> >::p;
-  
+
   /** The constructor initialises the peak values to 0. */
-  PeakMeter(double rate) : 
+  PeakMeter(double rate) :
     LV2::Plugin< PeakMeter<C> >(2 * C),
     m_dy(1.0 / (1.0 * rate)),
     m_min(1.0 / 256),
@@ -47,29 +47,29 @@ public:
     for (unsigned i = 0; i < C; ++i)
       m_values[i] = 0.0;
   }
-  
+
   /** Read audio input, write control output. */
   void run(uint32_t nframes) {
     for (unsigned c = 0; c < C; ++c) {
       for (uint32_t i = 0; i < nframes; ++i) {
-	float f = std::abs(p(2 * c)[i]);
-	m_values[c] = f > m_values[c] ? f : m_values[c];
+        float f = std::abs(p(2 * c)[i]);
+        m_values[c] = f > m_values[c] ? f : m_values[c];
       }
       *p(2 * c + 1) = m_values[c] > m_min ? m_values[c] : 0;
       if (m_values[c] > m_min)
-	m_values[c] *= pow(m_decay, nframes);
+        m_values[c] *= pow(m_decay, nframes);
       else
-	m_values[c] = 0.0;
+        m_values[c] = 0.0;
     }
   }
-  
+
 protected:
-  
+
   float m_values[C];
   float m_dy;
   float m_min;
   float m_decay;
-  
+
 };
 
 

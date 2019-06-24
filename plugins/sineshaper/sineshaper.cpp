@@ -68,7 +68,7 @@ SineShaper::SineShaper(double frame_rate)
     m_active_key(Key::NoKey),
     m_pitchbend(1.0f),
     m_midi_type(uri_to_id(LV2_EVENT_URI, 
-			  "http://lv2plug.in/ns/ext/midi#MidiEvent")) {
+                          "http://lv2plug.in/ns/ext/midi#MidiEvent")) {
   
 }
 
@@ -88,11 +88,11 @@ void SineShaper::handle_midi(const uint8_t* event_data) {
     // if this key is already held, remove it from the key stack
     if (m_keys[key].held) {
       if (key == m_active_key)
-	m_active_key = m_keys[key].below;
+        m_active_key = m_keys[key].below;
       if (m_keys[key].below != Key::NoKey)
-	m_keys[m_keys[key].below].above = m_keys[key].above;
+        m_keys[m_keys[key].below].above = m_keys[key].above;
       if (m_keys[key].above != Key::NoKey)
-	m_keys[m_keys[key].above].below = m_keys[key].below;
+        m_keys[m_keys[key].above].below = m_keys[key].below;
     }
     
     // if this is not a tied note, trigger the envelope and reset velocity
@@ -101,7 +101,7 @@ void SineShaper::handle_midi(const uint8_t* event_data) {
       m_adsr.on(m_last_frame);
       m_vel_slide.reset();
       if (*p(PRT_ON) <= 0)
-	m_freq_slide.reset();
+        m_freq_slide.reset();
     }
     
     // add this key at the top of the key stack
@@ -124,9 +124,9 @@ void SineShaper::handle_midi(const uint8_t* event_data) {
     if (!m_tie_overlapping) {
       m_active_key = Key::NoKey;
       for (unsigned i = 0; i < 128; ++i) {
-	m_keys[i].held = false;
-	m_keys[i].above = Key::NoKey;
-	m_keys[i].below = Key::NoKey;
+        m_keys[i].held = false;
+        m_keys[i].above = Key::NoKey;
+        m_keys[i].below = Key::NoKey;
       }
     }
     
@@ -134,11 +134,11 @@ void SineShaper::handle_midi(const uint8_t* event_data) {
     else if (m_keys[key].held) {
       m_keys[key].held = false;
       if (key == m_active_key)
-	m_active_key = m_keys[key].below;
+        m_active_key = m_keys[key].below;
       if (m_keys[key].below != Key::NoKey)
-	m_keys[m_keys[key].below].above = m_keys[key].above;
+        m_keys[m_keys[key].below].above = m_keys[key].above;
       if (m_keys[key].above != Key::NoKey)
-	m_keys[m_keys[key].above].below = m_keys[key].below;
+        m_keys[m_keys[key].above].below = m_keys[key].below;
     }
     
     // turn the envelope off if this was the last note, otherwise just
@@ -234,7 +234,7 @@ void SineShaper::render_audio(uint32_t from, uint32_t to) {
     vel = m_vel_slide.run(m_velocity, vel_slide_time);
     float osc_mix2 = m_osc_mix_slide.run(osc_mix, param_slide_time);
     float trem_depth2 = m_trem_depth_slide.run(trem_depth, 
-					       param_slide_time);
+                                               param_slide_time);
     float att2 = m_att_slide.run(att, param_slide_time);
     float dec2 = m_dec_slide.run(dec, param_slide_time);
     float sus2 = m_sus_slide.run(sus, param_slide_time);
@@ -248,7 +248,7 @@ void SineShaper::render_audio(uint32_t from, uint32_t to) {
     float gain2 = m_gain_slide.run(gain, param_slide_time);
     float amp_env2 = m_amp_env_slide.run(amp_env, param_slide_time);
     float delay_feedback2 = m_delay_fb_slide.run(delay_feedback, 
-						 param_slide_time);
+                                                 param_slide_time);
     float delay_mix2 = m_delay_mix_slide.run(delay_mix, param_slide_time);
     
     // portamento
@@ -273,8 +273,8 @@ void SineShaper::render_audio(uint32_t from, uint32_t to) {
     // run the shapers (and apply the envelope to the shape amount 
     // for shaper 1)
     output[i] = m_shaper.run(m_shaper.run(osc, shp1 * (shp_env2 * env + 
-						       (1 - shp_env2)), 0),
-			     shp2, shp_shift2);
+                                                       (1 - shp_env2)), 0),
+                             shp2, shp_shift2);
     
     // apply the envelope to the amplitude
     output[i] = output[i] * env * amp_env2 + output[i] * (1 - amp_env2);
@@ -284,7 +284,7 @@ void SineShaper::render_audio(uint32_t from, uint32_t to) {
     
     // apply gain and overdrive
     output[i] = gain2 * (drive2 * atan((1 + 10 * drive2) * output[i]) + 
-			 (1 - drive2) * output[i]);
+                         (1 - drive2) * output[i]);
     
     // run delay
     output[i] = m_delay.run(output[i], delay_time, delay_feedback2) * 
@@ -321,9 +321,9 @@ void SineShaper::run(uint32_t sample_count) {
     
     if (ev) {
       if (ev->type == 0)
-	event_unref(ev);
+        event_unref(ev);
       else if (ev->type == m_midi_type) {
-	handle_midi(event_data);
+        handle_midi(event_data);
       }
     }
   }

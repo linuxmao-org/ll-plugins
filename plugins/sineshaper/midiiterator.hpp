@@ -1,19 +1,19 @@
 /****************************************************************************
-    
+
     midiiterator.hpp - Class for iterating over an LV2 MIDI buffer
-    
+
     Copyright (C) 2006-2007 Lars Luthman <lars.luthman@gmail.com>
-    
+
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor,
@@ -55,22 +55,22 @@ enum MIDIEventType {
 
 class MIDIWrapper {
 public:
-  
+
   inline const double& timestamp() const {
     return *(double*)(m_data->data + m_offset);
   }
-  
-  
+
+
   inline const uint32_t& size() const {
     return *(uint32_t*)(m_data->data + m_offset + sizeof(double));
   }
-  
-  
+
+
   inline MIDIEventType type() const {
-    unsigned char* data = (m_data->data + m_offset + 
+    unsigned char* data = (m_data->data + m_offset +
                            sizeof(double) + sizeof(uint32_t));
     if (data[0] < 0xF0) {
-      if ((data[0] & 0xF0) == 0x80 || 
+      if ((data[0] & 0xF0) == 0x80 ||
           ((data[0] & 0x90) && data[2] == 0))
         return MIDI_NOTEOFF;
       if ((data[0] & 0xF0) == 0x90)
@@ -114,34 +114,34 @@ public:
       if (data[0] == 0xFF)
         return MIDI_RESET;
     }
-    
+
     return MIDI_UNKNOWN;
   }
-  
-  
+
+
   const unsigned char* data() const {
     return m_data->data + m_offset + sizeof(double) + sizeof(uint32_t);
   }
-  
+
 protected:
 
   inline MIDIWrapper(LV2_MIDI* data, unsigned long offset)
     : m_data(data), m_offset(offset) {
-    
+
   }
-  
-  
+
+
   LV2_MIDI* m_data;
   unsigned long m_offset;
-  
+
   friend class MIDIIterator;
-  
+
 };
 
 
 class MIDIIterator {
 public:
-  
+
   inline static MIDIIterator begin(LV2_MIDI* data) {
     return MIDIIterator(data, 0, 0);
   }
@@ -149,33 +149,33 @@ public:
   inline static MIDIIterator end(LV2_MIDI* data) {
     return MIDIIterator(data, 0, data->event_count);
   }
-  
+
   inline bool operator==(const MIDIIterator& iter) const {
-    return (m_event == iter.m_event && 
+    return (m_event == iter.m_event &&
             m_wrapper.m_data == iter.m_wrapper.m_data);
   }
-  
+
   inline bool operator!=(const MIDIIterator& iter) const {
     return !operator==(iter);
   }
-  
+
   inline MIDIIterator& operator++() {
     m_wrapper.m_offset += sizeof(double) + sizeof(uint32_t) + m_wrapper.size();
     ++m_event;
     return *this;
   }
-  
+
   inline const MIDIWrapper* operator->() const {
     return &m_wrapper;
   }
 
 protected:
-  
-  MIDIIterator(LV2_MIDI* data, unsigned long offset, unsigned long event) 
+
+  MIDIIterator(LV2_MIDI* data, unsigned long offset, unsigned long event)
     : m_wrapper(data, offset), m_event(event) {
-    
+
   }
-  
+
   MIDIWrapper m_wrapper;
   unsigned long m_event;
 };

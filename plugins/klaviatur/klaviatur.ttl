@@ -10,8 +10,8 @@
   lv2:binary <klaviatur.so>;
   doap:name "Klaviatur";
   doap:license <http://usefulinc.com/doap/licenses/gpl>;
-  ll:pegName "k";  
-  
+  ll:pegName "k";
+
   lv2:port [
     a ev:EventPort, lv2:InputPort;
     lv2:index 0;

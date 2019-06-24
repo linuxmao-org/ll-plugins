@@ -16,16 +16,16 @@ plug:gui
   a guiext:GtkUI;
   guiext:requiredFeature guiext:makeResident;
   guiext:binary <peakmeter_gtk.so>;
-  guiext:portNotification [ 
+  guiext:portNotification [
     guiext:plugin <http://ll-plugins.nongnu.org/lv2/peakmeter#0>;
-    guiext:portIndex 1 
+    guiext:portIndex 1
   ].
 
 plug2:gui
   a guiext:GtkUI;
   guiext:requiredFeature guiext:makeResident;
   guiext:binary <peakmeter_gtk.so>;
-  guiext:portNotification 
+  guiext:portNotification
     [ guiext:plugin <http://ll-plugins.nongnu.org/lv2/peakmeter-stereo#0>;
       guiext:portIndex 1 ],
     [ guiext:plugin <http://ll-plugins.nongnu.org/lv2/peakmeter-stereo#0>;

@@ -29,7 +29,7 @@ plug:delay      rdfs:label "Delay".
   pr:presetFile <presets.ttl>;
   ll:svgIcon <icon.svg>;
   ll:pegName "s";
-  
+
   lv2:port [
     a lv2:ControlPort, lv2:InputPort;
     lv2:index 0;
@@ -44,7 +44,7 @@ plug:delay      rdfs:label "Delay".
     ];
     pg:membership [ pg:group plug:tuning; ];
   ],
-  
+
   [
     a lv2:ControlPort, lv2:InputPort;
     lv2:index 1;
@@ -59,7 +59,7 @@ plug:delay      rdfs:label "Delay".
     ];
     pg:membership [ pg:group plug:tuning; ];
   ],
-  
+
   [
     a lv2:ControlPort, lv2:InputPort;
     lv2:index 2;
@@ -149,7 +149,7 @@ plug:delay      rdfs:label "Delay".
     ];
     pg:membership [ pg:group plug:portamento; ];
   ],
-  
+
   [
     a lv2:ControlPort, lv2:InputPort;
     lv2:index 8;
@@ -359,7 +359,7 @@ plug:delay      rdfs:label "Delay".
     ];
     pg:membership [ pg:group plug:release; ];
   ],
-  
+
   [
     a lv2:ControlPort, lv2:InputPort;
     lv2:index 22;
@@ -404,7 +404,7 @@ plug:delay      rdfs:label "Delay".
     ];
     pg:membership [ pg:group plug:amplifier; ];
   ],
-  
+
   [
     a lv2:ControlPort, lv2:InputPort;
     lv2:index 25;
@@ -449,7 +449,7 @@ plug:delay      rdfs:label "Delay".
     ];
     pg:membership [ pg:group plug:delay; ];
   ],
-  
+
   [
     a lv2:AudioPort, lv2:OutputPort;
     lv2:index 28;

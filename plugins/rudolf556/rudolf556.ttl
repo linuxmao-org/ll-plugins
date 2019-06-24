@@ -12,8 +12,8 @@
   doap:name "Rudolf 556";
   doap:license <http://usefulinc.com/doap/licenses/gpl>;
   ll:svgIcon <icon.svg>;
-  ll:pegName "r";  
-  
+  ll:pegName "r";
+
   lv2:port [
     a ev:EventPort, lv2:InputPort;
     lv2:index 0;

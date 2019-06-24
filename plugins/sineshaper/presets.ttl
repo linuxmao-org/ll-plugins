@@ -2,9 +2,9 @@
 @prefix pr: <http://ll-plugins.nongnu.org/lv2/presets#>.
 
 <http://ll-plugins.nongnu.org/lv2/sineshaper#0>
-  
+
   pr:bank <http://ll-plugins.nongnu.org/lv2/sineshaper#0/banks/0>;
-  
+
   pr:preset [
     a pr:Preset;
     rdfs:label "Default";

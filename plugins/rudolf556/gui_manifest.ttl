@@ -6,7 +6,7 @@
   rdfs:seeAlso <>;
   guiext:ui <http://ll-plugins.nongnu.org/lv2/rudolf556#0/gui>.
 
-<http://ll-plugins.nongnu.org/lv2/rudolf556#0/gui> 
+<http://ll-plugins.nongnu.org/lv2/rudolf556#0/gui>
   a guiext:GtkUI;
   guiext:binary <rudolf556_gtk.so>;
   guiext:requiredFeature guiext:makeResident;

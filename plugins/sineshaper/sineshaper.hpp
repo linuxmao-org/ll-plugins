@@ -1,19 +1,19 @@
 /****************************************************************************
-    
+
     sineshaper.hpp - A LV2 synth plugin
-    
+
     Copyright (C) 2006-2007 Lars Luthman <lars.luthman@gmail.com>
-    
+
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 01222-1307  USA
@@ -35,20 +35,20 @@
 
 /** This is the class that contains all the code and data for the Sineshaper
     synth plugin. */
-class SineShaper : public LV2::Plugin<SineShaper, 
-				      LV2::URIMap<true>, LV2::EventRef<true> > {
+class SineShaper : public LV2::Plugin<SineShaper,
+                                      LV2::URIMap<true>, LV2::EventRef<true> > {
 public:
-  
+
   SineShaper(double frame_rate);
-  
+
   void run(uint32_t sample_count);
-  
+
 protected:
-  
+
   void handle_midi(const uint8_t* event_data);
 
   void render_audio(uint32_t from, uint32_t to);
-  
+
   SineOscillator m_vibrato_lfo;
   SineOscillator m_tremolo_lfo;
   SineOscillator m_shaper_lfo;
@@ -79,13 +79,13 @@ protected:
   DCBlocker m_blocker;
 
   bool m_tie_overlapping;
-  
+
   unsigned long m_frame_rate;
   unsigned long m_last_frame;
-  
+
   float m_velocity;
   float m_pitch;
-  
+
   struct Key {
     static const unsigned char NoKey = 255;
     Key() : above(NoKey), below(NoKey), vel(0), held(false) { }
@@ -95,11 +95,11 @@ protected:
     bool held;
   } m_keys[128];
   unsigned char m_active_key;
-  
+
   float m_pitchbend;
-  
+
   uint32_t m_midi_type;
-  
+
 };
 
 

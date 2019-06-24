@@ -1,19 +1,19 @@
 /****************************************************************************
-    
+
     rudolf556widget.cpp - GUI for the Rudolf 556 drum machine
-    
+
     Copyright (C) 2008 Lars Luthman <lars.luthman@gmail.com>
-    
+
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor,
@@ -33,14 +33,14 @@ using namespace sigc;
 using namespace std;
 
 
-Rudolf556Widget::Rudolf556Widget(const string& bundle) 
+Rudolf556Widget::Rudolf556Widget(const string& bundle)
   : m_bundle(bundle),
     m_controls(18),
     m_active_control(18) {
-  
+
   set_size_request(300, 257);
   add_events(SCROLL_MASK | BUTTON_PRESS_MASK);
-  
+
   m_controls[0].x = 40.5;
   m_controls[0].y = 68.5;
   m_controls[1].x = 40.5;
@@ -76,7 +76,7 @@ Rudolf556Widget::Rudolf556Widget(const string& bundle)
   m_controls[16].x = 258;
   m_controls[16].y = 99;
   m_controls[17].x = 258;
-  m_controls[17].y = 129; 
+  m_controls[17].y = 129;
 }
 
 
@@ -115,11 +115,11 @@ void Rudolf556Widget::on_realize() {
 
 
 bool Rudolf556Widget::on_expose_event(GdkEventExpose* event) {
-  
+
   RefPtr<Gdk::Window> win = get_window();
   ::Cairo::RefPtr< ::Cairo::Context > cc = win->create_cairo_context();
   cc->set_line_cap(::Cairo::LINE_CAP_ROUND);
-  
+
   float a = 0.125;
   for (unsigned i = 0; i < m_controls.size(); ++i) {
     float const& x = m_controls[i].x;
@@ -143,7 +143,7 @@ bool Rudolf556Widget::on_expose_event(GdkEventExpose* event) {
       cc->stroke();
     }
   }
-  
+
   return true;
 }
 
@@ -153,16 +153,16 @@ bool Rudolf556Widget::on_button_press_event(GdkEventButton* event) {
     return false;
   int x = event->x;
   int y = event->y;
-  
+
   // check if it's in the drag area
   if (x >= 10 && x <= 24 && y >= 14 && y <= 38) {
     vector<TargetEntry> dnd_targets;
     dnd_targets.push_back(TargetEntry("x-org.nongnu.ll-plugins/keynames"));
     dnd_targets.push_back(TargetEntry("text/plain"));
-    drag_begin(TargetList::create(dnd_targets), Gdk::ACTION_COPY, 1, 
-	       reinterpret_cast<GdkEvent*>(event));
+    drag_begin(TargetList::create(dnd_targets), Gdk::ACTION_COPY, 1,
+               reinterpret_cast<GdkEvent*>(event));
   }
-  
+
   unsigned c = find_control(x, y);
   if (c < m_controls.size()) {
     m_active_control = c;
@@ -181,12 +181,12 @@ bool Rudolf556Widget::on_scroll_event(GdkEventScroll* event) {
   unsigned c = find_control(x, y);
   if (c >= m_controls.size())
     return true;
-  
+
   m_active_control = c;
   m_deactivate_conn.disconnect();
   m_deactivate_conn = signal_timeout().
     connect(mem_fun(*this, &Rudolf556Widget::deactivate_controls), 2000);
-  
+
   float step = 0.1;
   if (event->state & GDK_SHIFT_MASK)
     step *= 0.1;
@@ -202,24 +202,24 @@ bool Rudolf556Widget::on_scroll_event(GdkEventScroll* event) {
     signal_control_changed(c + 1, m_controls[c].value);
     queue_draw();
   }
-  
+
   return true;
 }
 
 
 void Rudolf556Widget::on_drag_data_get(const RefPtr<DragContext>& context,
-				       SelectionData& selection_data, 
-				       guint info, guint time) {
-  static char const keynames[] = 
+                                       SelectionData& selection_data,
+                                       guint info, guint time) {
+  static char const keynames[] =
     "60 Bass 1\n"
     "62 Bass 2\n"
     "64 Snare 1\n"
     "65 Snare 2\n"
     "67 Hihat 1\n"
     "69 Hihat 2\n";
-  selection_data.set(selection_data.get_target(), 8, 
-		     reinterpret_cast<const guint8*>(keynames),
-		     strlen(keynames));
+  selection_data.set(selection_data.get_target(), 8,
+                     reinterpret_cast<const guint8*>(keynames),
+                     strlen(keynames));
 }
 
 

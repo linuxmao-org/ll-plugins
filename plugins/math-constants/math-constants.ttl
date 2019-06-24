@@ -9,7 +9,7 @@ _:controlOutputPort
     lv2:index 0;
     lv2:symbol "output";
     lv2:name "Output".
-  
+
 
 <http://ll-plugins.nongnu.org/lv2/math-constant-e#0>
   a lv2:Plugin;

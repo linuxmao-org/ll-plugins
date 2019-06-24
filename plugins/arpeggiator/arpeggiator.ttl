@@ -19,7 +19,7 @@
     lv2:maximum 1200;
     lv2:default 480;
   ],
-  
+
   [
     a lv2:InputPort, lv2:ControlPort;
     lv2:index 1;
