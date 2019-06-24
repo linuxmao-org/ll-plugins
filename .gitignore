@@ -1,2 +1,7 @@
 *.dep
+*.o
+*.a
+*.so
 /Makefile.config
+/Makefile.deps
+/plugins/*/*.lv2/
